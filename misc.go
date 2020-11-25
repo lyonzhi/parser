@@ -322,6 +322,7 @@ var tokenMap = map[string]int{
 	"GCS_STORAGE_CLASS":          gcsStorageClass,
 	"GENERAL":                    general,
 	"GENERATED":                  generated,
+	"GEOMETRY":                   geometry,
 	"GET_FORMAT":                 getFormat,
 	"GLOBAL":                     global,
 	"GRANT":                      grant,

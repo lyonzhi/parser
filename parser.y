@@ -384,6 +384,7 @@ import (
 	gcsEndpoint             "GCS_ENDPOINT"
 	gcsPredefinedACL        "GCS_PREDEFINED_ACL"
 	gcsStorageClass         "GCS_STORAGE_CLASS"
+	geometry                "GEOMETRY"
 	global                  "GLOBAL"
 	grants                  "GRANTS"
 	hash                    "HASH"
@@ -4992,6 +4993,7 @@ UnReservedKeyword:
 |	"NATIONAL"
 |	"NCHAR"
 |	"ROW_FORMAT"
+|	"GEOMETRY"
 |	"QUARTER"
 |	"GRANTS"
 |	"TRIGGERS"
@@ -9622,6 +9624,11 @@ Type:
 |	DateAndTimeType
 	{
 		$$ = $1
+	}
+|	"GEOMETRY"
+	{
+		x := types.NewFieldType(mysql.TypeGeometry)
+		$$ = x
 	}
 
 NumericType:
