@@ -45,6 +45,14 @@ const (
 	TypeVarString  byte = 0xfd
 	TypeString     byte = 0xfe
 	TypeGeometry   byte = 0xff
+
+	TypePoint              byte = 0xe1
+	TypeLineString         byte = 0xe2
+	TypePolygon            byte = 0xe3
+	TypeMultiPoint         byte = 0xe4
+	TypeMultiLineString    byte = 0xe5
+	TypeMultiPolygon       byte = 0xe6
+	TypeGeometryCollection byte = 0xe7
 )
 
 // TypeUnspecified is an uninitialized type. TypeDecimal is not used in MySQL.

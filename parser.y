@@ -385,6 +385,13 @@ import (
 	gcsPredefinedACL        "GCS_PREDEFINED_ACL"
 	gcsStorageClass         "GCS_STORAGE_CLASS"
 	geometry                "GEOMETRY"
+	point                   "POINT"
+	lineString              "LINESTRING"
+	polygon                 "POLYGON"
+	multiPoint              "MULTIPOINT"
+	multiLineString         "MULTILINESTRING"
+	multiPolygon            "MULTIPOLYGON"
+	geometryCollection      "GEOMETRYCOLLECTION"
 	global                  "GLOBAL"
 	grants                  "GRANTS"
 	hash                    "HASH"
@@ -4994,6 +5001,13 @@ UnReservedKeyword:
 |	"NCHAR"
 |	"ROW_FORMAT"
 |	"GEOMETRY"
+|	"POINT"
+|	"LINESTRING"
+|	"POLYGON"
+|	"MULTILINESTRING"
+|	"MULTIPOINT"
+|	"MULTIPOLYGON"
+|	"GEOMETRYCOLLECTION"
 |	"QUARTER"
 |	"GRANTS"
 |	"TRIGGERS"
@@ -9628,6 +9642,41 @@ Type:
 |	"GEOMETRY"
 	{
 		x := types.NewFieldType(mysql.TypeGeometry)
+		$$ = x
+	}
+|	"POINT"
+	{
+		x := types.NewFieldType(mysql.TypePoint)
+		$$ = x
+	}
+|	"LINESTRING"
+	{
+		x := types.NewFieldType(mysql.TypeLineString)
+		$$ = x
+	}
+|	"POLYGON"
+	{
+		x := types.NewFieldType(mysql.TypePolygon)
+		$$ = x
+	}
+|	"MULTIPOINT"
+	{
+		x := types.NewFieldType(mysql.TypeMultiPoint)
+		$$ = x
+	}
+|	"MULTILINESTRING"
+	{
+		x := types.NewFieldType(mysql.TypeMultiLineString)
+		$$ = x
+	}
+|	"MULTIPOLYGON"
+	{
+		x := types.NewFieldType(mysql.TypeMultiPolygon)
+		$$ = x
+	}
+|	"GEOMETRYCOLLECTION"
+	{
+		x := types.NewFieldType(mysql.TypeGeometryCollection)
 		$$ = x
 	}
 
