@@ -92,35 +92,12 @@ func GetSupportedCollations() []*Collation {
 // ValidCharsetAndCollation checks the charset and the collation validity
 // and returns a boolean.
 func ValidCharsetAndCollation(cs string, co string) bool {
-	// We will use utf8 as a default charset.
-	if cs == "" {
-		cs = "utf8"
-	}
-	cs = strings.ToLower(cs)
-	c, ok := charsets[cs]
-	if !ok {
-		return false
-	}
-
-	if co == "" {
-		return true
-	}
-	co = strings.ToLower(co)
-	_, ok = c.Collations[co]
-	return ok
+	return true
 }
 
 // GetDefaultCollation returns the default collation for charset.
 func GetDefaultCollation(charset string) (string, error) {
-	charset = strings.ToLower(charset)
-	if charset == CharsetBin {
-		return CollationBin, nil
-	}
-	c, ok := charsets[charset]
-	if !ok {
-		return "", errors.Errorf("Unknown charset %s", charset)
-	}
-	return c.DefaultCollation, nil
+	return "", nil
 }
 
 // GetDefaultCharsetAndCollate returns the default charset and collation.
@@ -130,11 +107,7 @@ func GetDefaultCharsetAndCollate() (string, string) {
 
 // GetCharsetInfo returns charset and collation for cs as name.
 func GetCharsetInfo(cs string) (string, string, error) {
-	c, ok := charsets[strings.ToLower(cs)]
-	if !ok {
-		return "", "", errors.Errorf("Unknown charset %s", cs)
-	}
-	return c.Name, c.DefaultCollation, nil
+	return cs, "", nil
 }
 
 // GetCharsetDesc gets charset descriptions in the local charsets.
