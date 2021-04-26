@@ -107,7 +107,7 @@ func GetDefaultCharsetAndCollate() (string, string) {
 
 // GetCharsetInfo returns charset and collation for cs as name.
 func GetCharsetInfo(cs string) (string, string, error) {
-	return cs, "", nil
+	return strings.ToLower(cs), "", nil
 }
 
 // GetCharsetDesc gets charset descriptions in the local charsets.
