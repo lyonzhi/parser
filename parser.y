@@ -3304,7 +3304,7 @@ SubPartitionMethod:
 PartitionKeyAlgorithmOpt:
 	/* empty */
 	{}
-|	"ALGORITHM" '=' NUM
+|	"ALGORITHM" eq NUM
 	{}
 
 PartitionMethod:
