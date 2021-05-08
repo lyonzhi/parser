@@ -11416,10 +11416,13 @@ yynewstate:
 		}
 	case 283:
 		{
+			keyAlgorithm, _ := yyS[yypt-3].item.(*ast.PartitionKeyAlgorithm)
+
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:          model.PartitionTypeKey,
-				Linear:      len(yyS[yypt-5].ident) != 0,
-				ColumnNames: yyS[yypt-1].item.([]*ast.ColumnName),
+				Tp:           model.PartitionTypeKey,
+				Linear:       len(yyS[yypt-5].ident) != 0,
+				ColumnNames:  yyS[yypt-1].item.([]*ast.ColumnName),
+				KeyAlgorithm: keyAlgorithm,
 			}
 		}
 	case 284:
@@ -11428,6 +11431,21 @@ yynewstate:
 				Tp:     model.PartitionTypeHash,
 				Linear: len(yyS[yypt-4].ident) != 0,
 				Expr:   yyS[yypt-1].expr.(ast.ExprNode),
+			}
+		}
+	case 285:
+		{
+			parser.yyVAL.item = nil
+		}
+	case 286:
+		{
+			tp := getUint64FromNUM(yyS[yypt-0].item)
+			if tp != 1 && tp != 2 {
+				yylex.AppendError(ErrSyntax)
+				return 1
+			}
+			parser.yyVAL.item = &ast.PartitionKeyAlgorithm{
+				Type: tp,
 			}
 		}
 	case 287:
