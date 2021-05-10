@@ -917,6 +917,7 @@ func (s *Scanner) isTokenIdentifier(lit string, offset int) int {
 
 // just used by handleIdent
 func isCharset(cs string) bool {
+	cs = strings.ToLower(cs)
 	for _, c := range charset.GetSupportedCharsets() {
 		if c.Name == cs {
 			return true
