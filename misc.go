@@ -13,6 +13,12 @@
 
 package parser
 
+import (
+	"strings"
+
+	"github.com/pingcap/parser/charset"
+)
+
 func isLetter(ch rune) bool {
 	return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
 }
@@ -909,9 +915,18 @@ func (s *Scanner) isTokenIdentifier(lit string, offset int) int {
 	return tok
 }
 
+// just used by handleIdent
+func isCharset(cs string) bool {
+	for _, c := range charset.GetSupportedCharsets() {
+		if c.Name == cs {
+			return true
+		}
+	}
+
+	return false
+}
+
 func handleIdent(lval *yySymType) int {
-	return identifier
-	/* SELECT _latin1'abc'; not supported now
 	s := lval.ident
 	// A character string literal may have an optional character set introducer and COLLATE clause:
 	// [_charset_name]'string' [COLLATE collation_name]
@@ -919,12 +934,12 @@ func handleIdent(lval *yySymType) int {
 	if !strings.HasPrefix(s, "_") {
 		return identifier
 	}
-	cs, _, err := charset.GetCharsetInfo(s[1:])
-	if err != nil {
+
+	if !isCharset(s[1:]) {
 		return identifier
 	}
-	lval.ident = cs
-	return underscoreCS*/
+	lval.ident = strings.ToLower(s[1:])
+	return underscoreCS
 }
 
 // SpecialCommentsController controls whether special comments like `/*T![xxx] yyy */`
