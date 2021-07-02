@@ -152,11 +152,10 @@ func (ft *FieldType) CompactStr() string {
 		}
 	case mysql.TypeNewDecimal:
 		suffix = fmt.Sprintf("(%d,%d)", displayFlen, displayDecimal)
-	case mysql.TypeBit, mysql.TypeShort, mysql.TypeTiny, mysql.TypeInt24, mysql.TypeLong, mysql.TypeLonglong, mysql.TypeVarchar, mysql.TypeString, mysql.TypeVarString:
+	case mysql.TypeBit, mysql.TypeShort, mysql.TypeTiny, mysql.TypeInt24,
+		mysql.TypeLong, mysql.TypeLonglong, mysql.TypeVarchar, mysql.TypeString, mysql.TypeVarString, mysql.TypeYear:
 		// Flen is always shown.
 		suffix = fmt.Sprintf("(%d)", displayFlen)
-	case mysql.TypeYear:
-		suffix = fmt.Sprintf("(%d)", ft.Flen)
 	}
 	return ts + suffix
 }
