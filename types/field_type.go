@@ -122,7 +122,7 @@ func (ft *FieldType) CompactStr() string {
 
 	// displayFlen and displayDecimal are flen and decimal values with `-1` substituted with default value.
 	displayFlen, displayDecimal := ft.Flen, ft.Decimal
-	if displayFlen == 0 || displayFlen == UnspecifiedLength {
+	if displayFlen == UnspecifiedLength {
 		displayFlen = defaultFlen
 	}
 	if displayDecimal == 0 || displayDecimal == UnspecifiedLength {
