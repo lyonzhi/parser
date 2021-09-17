@@ -682,6 +682,7 @@ const (
 	ConstraintForeignKey
 	ConstraintFulltext
 	ConstraintCheck
+	ConstraintSpatial
 )
 
 // Constraint is constraint for table definition.
@@ -731,6 +732,8 @@ func (n *Constraint) Restore(ctx *format.RestoreCtx) error {
 		ctx.WriteKeyWord("UNIQUE INDEX")
 	case ConstraintFulltext:
 		ctx.WriteKeyWord("FULLTEXT")
+	case ConstraintSpatial:
+		ctx.WriteKeyWord("SPATIAL")
 	case ConstraintCheck:
 		if n.Name != "" {
 			ctx.WriteKeyWord("CONSTRAINT ")
@@ -1068,7 +1071,7 @@ func (n *DropTableStmt) Restore(ctx *format.RestoreCtx) error {
 			ctx.WritePlain(", ")
 		}
 		if err := table.Restore(ctx); err != nil {
-			return errors.Annotate(err, "An error occurred while restore DropTableStmt.Tables "+string(index))
+			return errors.Annotate(err, "An error occurred while restore DropTableStmt.Tables "+fmt.Sprint(index))
 		}
 	}
 

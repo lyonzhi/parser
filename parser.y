@@ -2745,6 +2745,18 @@ ConstraintElem:
 		}
 		$$ = c
 	}
+|	"SPATIAL" KeyOrIndexOpt IndexName '(' IndexPartSpecificationList ')' IndexOptionList
+	{
+		c := &ast.Constraint{
+			Tp:   ast.ConstraintSpatial,
+			Keys: $5.([]*ast.IndexPartSpecification),
+			Name: $3.(string),
+		}
+		if $7 != nil {
+			c.Option = $7.(*ast.IndexOption)
+		}
+		$$ = c
+	}
 |	KeyOrIndex IfNotExists IndexNameAndTypeOpt '(' IndexPartSpecificationList ')' IndexOptionList
 	{
 		c := &ast.Constraint{
