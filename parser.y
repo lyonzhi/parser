@@ -9414,6 +9414,11 @@ TableOption:
 		$$ = &ast.TableOption{Tp: ast.TableOptionCharset, StrValue: $4.(string),
 			UintValue: ast.TableOptionCharsetWithoutConvertTo}
 	}
+|	DefaultKwdOpt CharsetKw EqOpt defaultKwd
+	{
+		$$ = &ast.TableOption{Tp: ast.TableOptionCharset, Default: true,
+			UintValue: ast.TableOptionCharsetWithoutConvertTo}
+	}
 |	DefaultKwdOpt "COLLATE" EqOpt CollationName
 	{
 		$$ = &ast.TableOption{Tp: ast.TableOptionCollate, StrValue: $4.(string),
