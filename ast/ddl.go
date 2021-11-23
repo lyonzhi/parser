@@ -765,9 +765,7 @@ func (n *Constraint) Restore(ctx *format.RestoreCtx) error {
 			return errors.Trace(err)
 		}
 		ctx.WritePlain(") ")
-		if n.Enforced {
-			ctx.WriteKeyWord("ENFORCED")
-		} else {
+		if !n.Enforced {
 			ctx.WriteKeyWord("NOT ENFORCED")
 		}
 		return nil
@@ -2706,9 +2704,8 @@ func (n *AlterTableSpec) Restore(ctx *format.RestoreCtx) error {
 		ctx.WriteKeyWord("ALTER CHECK ")
 		ctx.WriteName(n.Constraint.Name)
 		if !n.Constraint.Enforced {
-			ctx.WriteKeyWord(" NOT")
+			ctx.WriteKeyWord(" NOT ENFORCED")
 		}
-		ctx.WriteKeyWord(" ENFORCED")
 	case AlterTableDropCheck:
 		ctx.WriteKeyWord("DROP CHECK ")
 		ctx.WriteName(n.Constraint.Name)
