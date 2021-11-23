@@ -542,9 +542,7 @@ func (n *ColumnOption) Restore(ctx *format.RestoreCtx) error {
 			return errors.Trace(err)
 		}
 		ctx.WritePlain(")")
-		if n.Enforced {
-			ctx.WriteKeyWord(" ENFORCED")
-		} else {
+		if !n.Enforced {
 			ctx.WriteKeyWord(" NOT ENFORCED")
 		}
 	case ColumnOptionColumnFormat:
