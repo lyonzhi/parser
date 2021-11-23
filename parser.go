@@ -16265,7 +16265,7 @@ yynewstate:
 		{
 			cst := yyS[yypt-0].item.(*ast.Constraint)
 			if yyS[yypt-1].item != nil {
-				cst.Name = yyS[yypt-1].item.(string)
+				cst.Symbol = yyS[yypt-1].item.(string)
 			}
 			parser.yyVAL.item = cst
 		}

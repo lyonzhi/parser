@@ -693,8 +693,9 @@ type Constraint struct {
 	// see https://mariadb.com/kb/en/library/alter-table/
 	IfNotExists bool
 
-	Tp   ConstraintType
-	Name string
+	Tp     ConstraintType
+	Symbol string
+	Name   string
 
 	Keys []*IndexPartSpecification // Used for PRIMARY KEY, UNIQUE, ......
 
@@ -713,6 +714,11 @@ func (n *Constraint) Restore(ctx *format.RestoreCtx) error {
 	case ConstraintNoConstraint:
 		return nil
 	case ConstraintPrimaryKey:
+		if n.Symbol != "" {
+			ctx.WriteKeyWord("CONSTRAINT ")
+			ctx.WriteName(n.Symbol)
+			ctx.WritePlain(" ")
+		}
 		ctx.WriteKeyWord("PRIMARY KEY")
 	case ConstraintKey:
 		ctx.WriteKeyWord("KEY")
@@ -725,19 +731,34 @@ func (n *Constraint) Restore(ctx *format.RestoreCtx) error {
 			ctx.WriteKeyWord(" IF NOT EXISTS")
 		}
 	case ConstraintUniq:
+		if n.Symbol != "" {
+			ctx.WriteKeyWord("CONSTRAINT ")
+			ctx.WriteName(n.Symbol)
+			ctx.WritePlain(" ")
+		}
 		ctx.WriteKeyWord("UNIQUE")
 	case ConstraintUniqKey:
+		if n.Symbol != "" {
+			ctx.WriteKeyWord("CONSTRAINT ")
+			ctx.WriteName(n.Symbol)
+			ctx.WritePlain(" ")
+		}
 		ctx.WriteKeyWord("UNIQUE KEY")
 	case ConstraintUniqIndex:
+		if n.Symbol != "" {
+			ctx.WriteKeyWord("CONSTRAINT ")
+			ctx.WriteName(n.Symbol)
+			ctx.WritePlain(" ")
+		}
 		ctx.WriteKeyWord("UNIQUE INDEX")
 	case ConstraintFulltext:
 		ctx.WriteKeyWord("FULLTEXT")
 	case ConstraintSpatial:
 		ctx.WriteKeyWord("SPATIAL")
 	case ConstraintCheck:
-		if n.Name != "" {
+		if n.Symbol != "" {
 			ctx.WriteKeyWord("CONSTRAINT ")
-			ctx.WriteName(n.Name)
+			ctx.WriteName(n.Symbol)
 			ctx.WritePlain(" ")
 		}
 		ctx.WriteKeyWord("CHECK")
@@ -756,13 +777,16 @@ func (n *Constraint) Restore(ctx *format.RestoreCtx) error {
 
 	if n.Tp == ConstraintForeignKey {
 		ctx.WriteKeyWord("CONSTRAINT ")
-		if n.Name != "" {
-			ctx.WriteName(n.Name)
+		if n.Symbol != "" {
+			ctx.WriteName(n.Symbol)
 			ctx.WritePlain(" ")
 		}
 		ctx.WriteKeyWord("FOREIGN KEY ")
 		if n.IfNotExists {
 			ctx.WriteKeyWord("IF NOT EXISTS ")
+		}
+		if n.Name != "" {
+			ctx.WriteName(n.Name)
 		}
 	} else if n.Name != "" {
 		ctx.WritePlain(" ")
