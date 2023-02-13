@@ -147,7 +147,7 @@ func GetCollations() []*Collation {
 func GetCollationByName(name string) (*Collation, error) {
 	collation, ok := collationsNameMap[strings.ToLower(name)]
 	if !ok {
-		return nil, ErrUnknownCollation.GenWithStackByArgs(name)
+		return collationsNameMap[mysql.DefaultCollationName], nil
 	}
 	return collation, nil
 }
