@@ -59,6 +59,7 @@ var charsetInfos = []*Charset{
 	{CharsetLatin1, CollationLatin1, make(map[string]*Collation), "cp1252 West European", 1},
 	{CharsetBin, CollationBin, make(map[string]*Collation), "Binary pseudo charset", 1},
 	{CharsetGBK, CollationGBKChineseCi, make(map[string]*Collation), " GBK Simplified Chinese", 1},
+	{CharsetUTF8MB3, CollationUTF8MB3, make(map[string]*Collation), "UTF-8 Unicode", 3},
 }
 
 // All the names supported collations should be in the following table.
@@ -69,6 +70,7 @@ var supportedCollationNames = map[string]struct{}{
 	CollationLatin1:       {},
 	CollationBin:          {},
 	CollationGBKChineseCi: {},
+	CollationUTF8MB3:      {},
 }
 
 // Desc is a charset description.
@@ -123,6 +125,8 @@ func GetCharsetDesc(cs string) (*Desc, error) {
 		return descs[3], nil
 	case CharsetBin:
 		return descs[4], nil
+	case CharsetUTF8MB3:
+		return descs[6], nil
 	default:
 		return nil, errors.Errorf("Unknown charset %s", cs)
 	}
@@ -178,7 +182,9 @@ const (
 	// CharsetLatin1 is a single byte charset.
 	CharsetLatin1 = "latin1"
 	// CollationLatin1 is the default collation for CharsetLatin1.
-	CollationLatin1 = "latin1_bin"
+	CollationLatin1  = "latin1_bin"
+	CharsetUTF8MB3   = "utf8mb3"
+	CollationUTF8MB3 = "utf8mb3_general_ci"
 )
 
 var collations = []*Collation{
@@ -402,6 +408,96 @@ var collations = []*Collation{
 	{246, "utf8mb4", "utf8mb4_unicode_520_ci", false},
 	{247, "utf8mb4", "utf8mb4_vietnamese_ci", false},
 	{255, "utf8mb4", "utf8mb4_0900_ai_ci", false},
+	{256, "utf8mb4", "utf8mb4_0900_as_cs", false},
+	{258, "utf8mb4", "utf8mb4_0900_bin", false},
+	{259, "utf8mb4", "utf8mb4_bg_0900_ai_ci", false},
+	{260, "utf8mb4", "utf8mb4_bg_0900_as_cs", false},
+	{261, "utf8mb4", "utf8mb4_bs_0900_ai_ci", false},
+	{262, "utf8mb4", "utf8mb4_bs_0900_as_cs", false},
+	{263, "utf8mb4", "utf8mb4_cs_0900_ai_ci", false},
+	{264, "utf8mb4", "utf8mb4_cs_0900_as_cs", false},
+	{265, "utf8mb4", "utf8mb4_da_0900_ai_ci", false},
+	{266, "utf8mb4", "utf8mb4_da_0900_as_cs", false},
+	{267, "utf8mb4", "utf8mb4_de_pb_0900_ai_ci", false},
+	{268, "utf8mb4", "utf8mb4_de_pb_0900_as_cs", false},
+	{269, "utf8mb4", "utf8mb4_eo_0900_ai_ci", false},
+	{270, "utf8mb4", "utf8mb4_eo_0900_as_cs", false},
+	{271, "utf8mb4", "utf8mb4_es_0900_ai_ci", false},
+	{272, "utf8mb4", "utf8mb4_es_0900_as_cs", false},
+	{273, "utf8mb4", "utf8mb4_es_trad_0900_ai_ci", false},
+	{274, "utf8mb4", "utf8mb4_es_trad_0900_as_cs", false},
+	{275, "utf8mb4", "utf8mb4_et_0900_ai_ci", false},
+	{276, "utf8mb4", "utf8mb4_et_0900_as_cs", false},
+	{277, "utf8mb4", "utf8mb4_gl_0900_ai_ci", false},
+	{278, "utf8mb4", "utf8mb4_gl_0900_as_cs", false},
+	{279, "utf8mb4", "utf8mb4_gl_0900_as_cs", false},
+	{280, "utf8mb4", "utf8mb4_hr_0900_ai_ci", false},
+	{281, "utf8mb4", "utf8mb4_hr_0900_as_cs", false},
+	{282, "utf8mb4", "utf8mb4_hu_0900_ai_ci", false},
+	{283, "utf8mb4", "utf8mb4_hu_0900_as_cs", false},
+	{284, "utf8mb4", "utf8mb4_is_0900_ai_ci", false},
+	{285, "utf8mb4", "utf8mb4_is_0900_as_cs", false},
+	{286, "utf8mb4", "utf8mb4_ja_0900_as_cs", false},
+	{287, "utf8mb4", "utf8mb4_ja_0900_as_cs_ks", false},
+	{288, "utf8mb4", "utf8mb4_la_0900_ai_ci", false},
+	{289, "utf8mb4", "utf8mb4_la_0900_as_cs", false},
+	{290, "utf8mb4", "utf8mb4_lt_0900_ai_ci", false},
+	{291, "utf8mb4", "utf8mb4_lt_0900_as_cs", false},
+	{292, "utf8mb4", "utf8mb4_lv_0900_ai_ci", false},
+	{293, "utf8mb4", "utf8mb4_lv_0900_as_cs", false},
+	{294, "utf8mb4", "utf8mb4_mn_cyrl_0900_ai_ci", false},
+	{295, "utf8mb4", "utf8mb4_mn_cyrl_0900_as_cs", false},
+	{296, "utf8mb4", "utf8mb4_nb_0900_ai_ci", false},
+	{297, "utf8mb4", "utf8mb4_nb_0900_as_cs", false},
+	{298, "utf8mb4", "utf8mb4_nn_0900_ai_ci", false},
+	{299, "utf8mb4", "utf8mb4_nn_0900_as_cs", false},
+	{300, "utf8mb4", "utf8mb4_pl_0900_ai_ci", false},
+	{301, "utf8mb4", "utf8mb4_pl_0900_as_cs", false},
+	{302, "utf8mb4", "utf8mb4_ro_0900_ai_ci", false},
+	{303, "utf8mb4", "utf8mb4_ro_0900_as_cs", false},
+	{304, "utf8mb4", "utf8mb4_ru_0900_ai_ci", false},
+	{305, "utf8mb4", "utf8mb4_ru_0900_as_cs", false},
+	{306, "utf8mb4", "utf8mb4_sk_0900_ai_ci", false},
+	{307, "utf8mb4", "utf8mb4_sk_0900_as_cs", false},
+	{308, "utf8mb4", "utf8mb4_sl_0900_ai_ci", false},
+	{309, "utf8mb4", "utf8mb4_sl_0900_as_cs", false},
+	{310, "utf8mb4", "utf8mb4_sr_latn_0900_ai_ci", false},
+	{311, "utf8mb4", "utf8mb4_sr_latn_0900_as_cs", false},
+	{312, "utf8mb4", "utf8mb4_sv_0900_ai_ci", false},
+	{313, "utf8mb4", "utf8mb4_sv_0900_as_cs", false},
+	{314, "utf8mb4", "utf8mb4_tr_0900_ai_ci", false},
+	{315, "utf8mb4", "utf8mb4_tr_0900_as_cs", false},
+	{316, "utf8mb4", "utf8mb4_vi_0900_ai_ci", false},
+	{317, "utf8mb4", "utf8mb4_vi_0900_as_cs", false},
+	{318, "utf8mb4", "utf8mb4_zh_0900_as_cs", false},
+	{319, "utf8mb3", "utf8mb3_general_ci", true},
+	{320, "utf8mb3", "utf8mb3_bin", false},
+	{321, "utf8mb3", "utf8mb3_croatian_ci", false},
+	{322, "utf8mb3", "utf8mb3_czech_ci", false},
+	{323, "utf8mb3", "utf8mb3_danish_ci", false},
+	{324, "utf8mb3", "utf8mb3_esperanto_ci", false},
+	{325, "utf8mb3", "utf8mb3_estonian_ci", false},
+	{326, "utf8mb3", "utf8mb3_general_mysql500_ci", false},
+	{327, "utf8mb3", "utf8mb3_german2_ci", false},
+	{328, "utf8mb3", "utf8mb3_hungarian_ci", false},
+	{329, "utf8mb3", "utf8mb3_icelandic_ci", false},
+	{330, "utf8mb3", "utf8mb3_latvian_ci", false},
+	{331, "utf8mb3", "utf8mb3_lithuanian_ci", false},
+	{332, "utf8mb3", "utf8mb3_persian_ci", false},
+	{333, "utf8mb3", "utf8mb3_polish_ci", false},
+	{334, "utf8mb3", "utf8mb3_romanian_ci", false},
+	{335, "utf8mb3", "utf8mb3_roman_ci", false},
+	{336, "utf8mb3", "utf8mb3_sinhala_ci", false},
+	{337, "utf8mb3", "utf8mb3_slovak_ci", false},
+	{338, "utf8mb3", "utf8mb3_slovenian_ci", false},
+	{339, "utf8mb3", "utf8mb3_spanish2_ci", false},
+	{340, "utf8mb3", "utf8mb3_spanish_ci", false},
+	{341, "utf8mb3", "utf8mb3_swedish_ci", false},
+	{342, "utf8mb3", "utf8mb3_tolower_ci", false},
+	{343, "utf8mb3", "utf8mb3_turkish_ci", false},
+	{344, "utf8mb3", "utf8mb3_unicode_520_ci", false},
+	{345, "utf8mb3", "utf8mb3_unicode_ci", false},
+	{346, "utf8mb3", "utf8mb3_vietnamese_ci", false},
 }
 
 // init method always puts to the end of file.
