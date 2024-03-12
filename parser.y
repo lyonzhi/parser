@@ -881,6 +881,7 @@ import (
 	CreateTableOptionListOpt               "create table option list opt"
 	CreateTableSelectOpt                   "Select/Union statement in CREATE TABLE ... SELECT"
 	CreateViewSelectOpt                    "Select/Union statement in CREATE VIEW ... AS SELECT"
+	StartTransactionOpt                    "Start transaction option"
 	DatabaseOption                         "CREATE Database specification"
 	DatabaseOptionList                     "CREATE Database specification list"
 	DatabaseOptionListOpt                  "CREATE Database specification list opt"
@@ -1289,7 +1290,9 @@ import (
 %right collate
 %right encryption
 %left labels
+%precedence lowerThanParenthese
 %precedence '('
+%precedence higherThanParenthese
 %precedence quick
 %precedence escape
 %precedence lowerThanComma
@@ -3239,19 +3242,30 @@ DatabaseOptionList:
  *          PRIMARY KEY (P_Id)
  *      )
  *******************************************************************/
+
+StartTransactionOpt:
+%prec lowerThanParenthese
+	{
+		$$ = nil
+	}
+|	"START" "TRANSACTION"
+	{
+		$$ = nil
+	}
+
 CreateTableStmt:
-	"CREATE" OptTemporary "TABLE" IfNotExists TableName TableElementListOpt CreateTableOptionListOpt PartitionOpt DuplicateOpt AsOpt CreateTableSelectOpt
+	"CREATE" OptTemporary "TABLE" IfNotExists TableName TableElementListOpt CreateTableOptionListOpt StartTransactionOpt PartitionOpt DuplicateOpt AsOpt CreateTableSelectOpt
 	{
 		stmt := $6.(*ast.CreateTableStmt)
 		stmt.Table = $5.(*ast.TableName)
 		stmt.IfNotExists = $4.(bool)
 		stmt.IsTemporary = $2.(bool)
 		stmt.Options = $7.([]*ast.TableOption)
-		if $8 != nil {
-			stmt.Partition = $8.(*ast.PartitionOptions)
+		if $9 != nil {
+			stmt.Partition = $9.(*ast.PartitionOptions)
 		}
-		stmt.OnDuplicate = $9.(ast.OnDuplicateKeyHandlingType)
-		stmt.Select = $11.(*ast.CreateTableStmt).Select
+		stmt.OnDuplicate = $10.(ast.OnDuplicateKeyHandlingType)
+		stmt.Select = $12.(*ast.CreateTableStmt).Select
 		$$ = stmt
 	}
 |	"CREATE" OptTemporary "TABLE" IfNotExists TableName LikeTableWithOrWithoutParen
